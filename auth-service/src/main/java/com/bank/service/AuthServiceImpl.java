@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.bank.dto.AuthResponse;
 import com.bank.dto.LoginRequest;
 import com.bank.dto.RegisterRequest;
-import com.bank.entiry.User;
+import com.bank.entity.User;
 import com.bank.repository.UserRepository;
 import com.bank.security.JwtService;
 

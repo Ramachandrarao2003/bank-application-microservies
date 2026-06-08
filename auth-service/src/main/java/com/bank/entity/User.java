@@ -1,4 +1,4 @@
-package com.bank.entiry;
+package com.bank.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

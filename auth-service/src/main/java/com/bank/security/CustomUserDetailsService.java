@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.bank.entiry.User;
+import com.bank.entity.User;
 import com.bank.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
