@@ -66,4 +66,18 @@ public class AuthServiceImpl implements AuthService {
 				.build();
 	}
 
+	@Override
+	public UserResponse getUser(Long id) {
+		
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("User Not Fount"));
+		
+		return UserResponse.builder()
+				.id(user.getId())
+				.name(user.getName())
+				.email(user.getEmail())
+				.role(user.getRole())
+				.build();
+	}
+
 }

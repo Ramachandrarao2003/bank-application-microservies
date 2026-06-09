@@ -41,6 +41,12 @@ public class AuthController {
 		return ResponseEntity.ok(authService.getUserByEmail(email));
 	}
 	
+	@GetMapping("/user/{id}")
+	public ResponseEntity<UserResponse> getUser(@PathVariable Long id){
+		
+		return ResponseEntity.ok(authService.getUser(id));
+	}
+	
 	
 
 }

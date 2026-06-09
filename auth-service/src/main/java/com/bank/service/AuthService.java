@@ -12,5 +12,7 @@ public interface AuthService {
 	public AuthResponse login(LoginRequest request);
 	
 	public UserResponse getUserByEmail(String email);
+	
+	public UserResponse getUser(Long id);
 
 }
