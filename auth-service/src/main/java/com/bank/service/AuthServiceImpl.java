@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.bank.dto.AuthResponse;
 import com.bank.dto.LoginRequest;
 import com.bank.dto.RegisterRequest;
+import com.bank.dto.UserResponse;
 import com.bank.entity.User;
 import com.bank.repository.UserRepository;
 import com.bank.security.JwtService;
@@ -49,6 +50,20 @@ public class AuthServiceImpl implements AuthService {
 		String token = jwtService.generateToken(user);
 		
 		return new AuthResponse(token);
+	}
+
+	@Override
+	public UserResponse getUserByEmail(String email) {
+		
+		User user=userRepository.findByEmail(email)
+				 .orElseThrow( () -> new RuntimeException("User Not Found"));
+		
+		return UserResponse.builder()
+				.id(user.getId())
+				.name(user.getName())
+				.email(user.getEmail())
+				.role(user.getRole())
+				.build();
 	}
 
 }
