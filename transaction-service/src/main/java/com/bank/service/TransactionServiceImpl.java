@@ -6,12 +6,16 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.bank.dto.AccountResponse;
+import com.bank.dto.NotificationEvent;
 import com.bank.dto.TransactionResponse;
 import com.bank.dto.TransferRequest;
+import com.bank.dto.UserResponse;
 import com.bank.entity.Transaction;
 import com.bank.enums.TransactionStatus;
 import com.bank.enums.TransactionType;
 import com.bank.feign.AccountFeignClient;
+import com.bank.feign.AuthFeignClient;
+import com.bank.kafka.NotificationProducer;
 import com.bank.repository.TransactionRepository;
 
 import jakarta.transaction.Transactional;
@@ -25,6 +29,8 @@ public class TransactionServiceImpl implements TransactionService {
 	
 	private final TransactionRepository transactionRepo;
 	private final AccountFeignClient accountFeign;
+	private final AuthFeignClient authFeign;
+	private final NotificationProducer producer;
 
 	@Override
 	@Transactional
@@ -37,6 +43,11 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		AccountResponse source = accountFeign.getAccount(request.getFromAccount());
 		AccountResponse destination = accountFeign.getAccount(request.getToaccount());
+		
+		Long userId = source.getUserId();
+		UserResponse user = authFeign.getUser(userId);
+		String userEmail = user.getEmail();
+				
 		
 		if(source == null) {
 			throw new RuntimeException("Source Account Not Found");
@@ -64,6 +75,21 @@ public class TransactionServiceImpl implements TransactionService {
 				.build();
 		
 		transactionRepo.save(transaction);
+		
+		NotificationEvent event =NotificationEvent.builder()
+				.email(userEmail)
+				.subject("Fund Transfer Success")
+				.message(
+						"Amount ₹" +
+						request.getAmount() + 
+						"  transferred successfully from  " +
+						request.getFromAccount() +
+						" to " +
+						request.getToaccount())
+				.build();
+		
+		producer.publish(event);
+				
 		
 		log.info("Transfer Completed : {} -> {}",
 				request.getFromAccount(),request.getToaccount());
