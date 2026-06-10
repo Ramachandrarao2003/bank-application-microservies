@@ -12,5 +12,9 @@ public interface AccountService {
 	public AccountResponse deposit(String accountNumber,Double amount);
 	public AccountResponse withdraw(String accountNumber,Double amount);
 	public List<AccountResponse> getAllAccounts();
+	
+	public AccountResponse blockAccount(String accountNumber);
+	public AccountResponse activateAccount(String accountNumber);
+	public AccountResponse closeAccount(String accountNumber);
 
 }

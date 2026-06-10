@@ -58,5 +58,23 @@ public class AccountController {
 		
 		return ResponseEntity.ok(accountService.getAllAccounts());
 	}
+	
+	@PutMapping("/block/{accountNumber}")
+	public ResponseEntity<AccountResponse> blockAccount(@PathVariable String accountNumber){
+		
+		return ResponseEntity.ok(accountService.blockAccount(accountNumber));
+	}
+	
+	@PutMapping("/activate/{accountNumber}")
+	public ResponseEntity<AccountResponse> activateAccount(@PathVariable String accountNumber){
+		
+		return ResponseEntity.ok(accountService.activateAccount(accountNumber));
+	}
+	
+	@PutMapping("/close/{accountNumber}")
+	public ResponseEntity<AccountResponse> closeAccount(@PathVariable String accountNumber){
+		
+		return ResponseEntity.ok(accountService.closeAccount(accountNumber));
+	}
 
 }

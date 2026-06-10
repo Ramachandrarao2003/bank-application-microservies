@@ -9,6 +9,7 @@ import com.bank.dto.AccountRequest;
 import com.bank.dto.AccountResponse;
 import com.bank.dto.UserResponse;
 import com.bank.entity.Account;
+import com.bank.enums.AccountStatus;
 import com.bank.exception.AccountNotFoundException;
 import com.bank.exception.InsufficientBalanceException;
 import com.bank.feign.AuthFeignClient;
@@ -82,7 +83,7 @@ public class AccountServiceImpl implements AccountService {
 				.phone(account.getPhone())
 				.accountType(account.getAccountType())
 				.balance(account.getBalance())
-				.status(account.getStatus())
+				.status(account.getStatus().name())
 				.createdAt(account.getCreatedAt())
 				.build();
 	}
@@ -119,13 +120,58 @@ public class AccountServiceImpl implements AccountService {
 				.accountType(request.getAccountType())
 				.accountNumber(generateAccountNumber())
 				.balance(request.getBalance())
-				.status("ACTIVE")
+				.status(AccountStatus.ACTIVE)
 				.createdAt(LocalDateTime.now())
 				.build();
 		
 		accountRepo.save(account);
 		
 		log.info("Account Created Successfully : {}",account.getAccountNumber());
+		
+		return map(account);
+	}
+
+	@Override
+	public AccountResponse blockAccount(String accountNumber) {
+		
+		Account account = accountRepo
+				.findByAccountNumber(accountNumber)
+				.orElseThrow(() -> new AccountNotFoundException("Account Not Fount"));
+		
+		account.setStatus(AccountStatus.BLOCKED);
+		accountRepo.save(account);
+		
+		log.info("Account Blocked : {}",accountNumber);
+		
+		return map(account);
+	}
+
+	@Override
+	public AccountResponse activateAccount(String accountNumber) {
+		
+		Account account = accountRepo
+				.findByAccountNumber(accountNumber)
+				.orElseThrow(() -> new AccountNotFoundException("Account Not Fount"));
+		
+		account.setStatus(AccountStatus.ACTIVE);
+		accountRepo.save(account);
+		
+		log.info("Account Activated : {}",accountNumber);
+		
+		return map(account);
+	}
+
+	@Override
+	public AccountResponse closeAccount(String accountNumber) {
+		
+		Account account = accountRepo
+				.findByAccountNumber(accountNumber)
+				.orElseThrow(() -> new AccountNotFoundException("Account Not Fount"));
+		
+		account.setStatus(AccountStatus.CLOSED);
+		accountRepo.save(account);
+		
+		log.info("Account Activated : {}",accountNumber);
 		
 		return map(account);
 	}
