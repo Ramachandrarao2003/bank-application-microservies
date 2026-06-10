@@ -1,5 +1,7 @@
 package com.bank.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +47,12 @@ public class AuthController {
 	public ResponseEntity<UserResponse> getUser(@PathVariable Long id){
 		
 		return ResponseEntity.ok(authService.getUser(id));
+	}
+	
+	@GetMapping("/users")
+	public ResponseEntity<List<UserResponse>> getAllUsers(){
+		
+		return ResponseEntity.ok(authService.getAllUsers());
 	}
 	
 	

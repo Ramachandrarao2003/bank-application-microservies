@@ -1,4 +1,6 @@
 package com.bank.service;
+import java.util.List;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -71,6 +73,25 @@ public class AuthServiceImpl implements AuthService {
 		
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("User Not Fount"));
+		
+		return UserResponse.builder()
+				.id(user.getId())
+				.name(user.getName())
+				.email(user.getEmail())
+				.role(user.getRole())
+				.build();
+	}
+
+	@Override
+	public List<UserResponse> getAllUsers() {
+		
+		return userRepository.findAll()
+				.stream()
+				.map(this::mapToResponse)
+				.toList();
+	}
+	
+	private UserResponse mapToResponse(User user) {
 		
 		return UserResponse.builder()
 				.id(user.getId())

@@ -1,5 +1,7 @@
 package com.bank.service;
 
+import java.util.List;
+
 import com.bank.dto.AuthResponse;
 import com.bank.dto.LoginRequest;
 import com.bank.dto.RegisterRequest;
@@ -14,5 +16,7 @@ public interface AuthService {
 	public UserResponse getUserByEmail(String email);
 	
 	public UserResponse getUser(Long id);
+	
+	public List<UserResponse> getAllUsers();
 
 }
