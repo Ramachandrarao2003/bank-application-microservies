@@ -39,6 +39,7 @@ public class Transaction {
 	private TransactionType transactionType;
 	@Enumerated(EnumType.STRING)
 	private TransactionStatus status;
+
 	private String description;
 	private LocalDateTime transactionDate;
 

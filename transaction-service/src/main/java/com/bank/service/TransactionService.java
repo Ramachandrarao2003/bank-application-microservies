@@ -10,5 +10,7 @@ public interface TransactionService {
 	public TransactionResponse transfer(TransferRequest request);
 	
 	public List<TransactionResponse> getTransactions(String accountNumber);
+	
+	public List<TransactionResponse> getAllTransactions();
 
 }

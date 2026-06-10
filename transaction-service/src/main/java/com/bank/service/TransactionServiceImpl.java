@@ -43,11 +43,8 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		AccountResponse source = accountFeign.getAccount(request.getFromAccount());
 		AccountResponse destination = accountFeign.getAccount(request.getToaccount());
-		
-		Long userId = source.getUserId();
-		UserResponse user = authFeign.getUser(userId);
-		String userEmail = user.getEmail();
 				
+		//Account existence validation
 		
 		if(source == null) {
 			throw new RuntimeException("Source Account Not Found");
@@ -57,9 +54,23 @@ public class TransactionServiceImpl implements TransactionService {
 			throw new RuntimeException("Destination Account Not Found");
 		}
 		
+		//Account status validation
+		if(!"ACTIVE".equalsIgnoreCase(source.getStatus())) {
+			throw new RuntimeException("Source Account Not Active");
+		}
+		
+		if(!"ACTIVE".equalsIgnoreCase(destination.getStatus())) {
+			throw new RuntimeException("Destination Account Not Active");
+		}
+		
+		//Balance Validation
 		if(source.getBalance() < request.getAmount()) {
 			throw new RuntimeException("Insufficient Balance");
 		}
+		
+		Long userId = source.getUserId();
+		UserResponse user = authFeign.getUser(userId);
+		String userEmail = user.getEmail();
 		
 		accountFeign.withdraw(request.getFromAccount(), request.getAmount());
 		accountFeign.deposit(request.getToaccount(), request.getAmount());
@@ -118,6 +129,15 @@ public class TransactionServiceImpl implements TransactionService {
 				.description(transaction.getDescription())
 				.transactionDate(transaction.getTransactionDate())
 				.build();
+	}
+
+	@Override
+	public List<TransactionResponse> getAllTransactions() {
+		
+		return transactionRepo.findAll()
+				.stream()
+				.map(this::map)
+				.toList();
 	}
 
 }

@@ -35,5 +35,11 @@ public class TransactionController {
 		return ResponseEntity.ok(service.getTransactions(accountNumber));
 	}
 	
+	@GetMapping
+	public ResponseEntity<List<TransactionResponse>> getAllTransactions(){
+		
+		return ResponseEntity.ok(service.getAllTransactions());
+	}
+	
 
 }
