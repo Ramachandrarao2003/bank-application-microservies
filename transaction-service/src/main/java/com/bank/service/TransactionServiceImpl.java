@@ -13,6 +13,8 @@ import com.bank.dto.UserResponse;
 import com.bank.entity.Transaction;
 import com.bank.enums.TransactionStatus;
 import com.bank.enums.TransactionType;
+import com.bank.exception.InsufficientBalanceException;
+import com.bank.exception.TransactionNotFoundException;
 import com.bank.feign.AccountFeignClient;
 import com.bank.feign.AuthFeignClient;
 import com.bank.kafka.NotificationProducer;
@@ -65,7 +67,7 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		//Balance Validation
 		if(source.getBalance() < request.getAmount()) {
-			throw new RuntimeException("Insufficient Balance");
+			throw new InsufficientBalanceException("Insufficient Balance");
 		}
 		
 		Long userId = source.getUserId();
@@ -138,6 +140,16 @@ public class TransactionServiceImpl implements TransactionService {
 				.stream()
 				.map(this::map)
 				.toList();
+	}
+
+	@Override
+	public TransactionResponse getTransaction(Long transactionId) {
+		
+		Transaction transaction = transactionRepo.findById(transactionId)
+					.orElseThrow(() -> new TransactionNotFoundException("Transaction Not Fount"));
+		
+							
+		return map(transaction);
 	}
 
 }

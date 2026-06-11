@@ -12,5 +12,8 @@ public interface TransactionService {
 	public List<TransactionResponse> getTransactions(String accountNumber);
 	
 	public List<TransactionResponse> getAllTransactions();
+	
+	public TransactionResponse getTransaction(Long transactionId);
+	
 
 }
