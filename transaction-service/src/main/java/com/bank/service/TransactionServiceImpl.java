@@ -13,6 +13,7 @@ import com.bank.dto.UserResponse;
 import com.bank.entity.Transaction;
 import com.bank.enums.TransactionStatus;
 import com.bank.enums.TransactionType;
+import com.bank.exception.AccountServiceUnavailableException;
 import com.bank.exception.InsufficientBalanceException;
 import com.bank.exception.TransactionNotFoundException;
 import com.bank.feign.AccountFeignClient;
@@ -20,6 +21,7 @@ import com.bank.feign.AuthFeignClient;
 import com.bank.kafka.NotificationProducer;
 import com.bank.repository.TransactionRepository;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	@Transactional
+	@CircuitBreaker(name = "accountService",fallbackMethod = "transferFallback")
 	public TransactionResponse transfer(TransferRequest request) {
 		
 		log.info("Transfer Started From {} to {} Amount {}",
@@ -57,11 +60,17 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 		
 		//Account status validation
-		if(!"ACTIVE".equalsIgnoreCase(source.getStatus())) {
+		/*if(!"ACTIVE".equalsIgnoreCase(source.getStatus())) {
 			throw new RuntimeException("Source Account Not Active");
 		}
 		
 		if(!"ACTIVE".equalsIgnoreCase(destination.getStatus())) {
+			throw new RuntimeException("Destination Account Not Active");
+		} */
+		if(!source.getStatus().equals("ACTIVE")) {
+			throw new RuntimeException("Source Account Not Active");
+		}
+		if(!destination.getStatus().equals("ACTIVE")) {
 			throw new RuntimeException("Destination Account Not Active");
 		}
 		
@@ -147,9 +156,27 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		Transaction transaction = transactionRepo.findById(transactionId)
 					.orElseThrow(() -> new TransactionNotFoundException("Transaction Not Fount"));
-		
-							
+									
 		return map(transaction);
+	}
+	
+	public TransactionResponse transferFallback(TransferRequest request, Exception ex) {
+		
+		log.error("Account Servce Down : {}",ex.getMessage());
+		
+		Transaction failedTxn = Transaction.builder()
+				.fromAccount(request.getFromAccount())
+				.toAccount(request.getToaccount())
+				.amount(request.getAmount())
+				.transactionType(TransactionType.TRANSFER)
+				.status(TransactionStatus.FAILED)
+				.description("Account Service Unavailable")
+				.transactionDate(LocalDateTime.now())
+				.build();
+		transactionRepo.save(failedTxn);
+		
+		throw new AccountServiceUnavailableException(
+				"Account Service is currently unavailable. Please try again later.");
 	}
 
 }

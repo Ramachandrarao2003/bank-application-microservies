@@ -14,6 +14,7 @@ import com.bank.dto.TransactionResponse;
 import com.bank.dto.TransferRequest;
 import com.bank.service.TransactionService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -23,18 +24,21 @@ public class TransactionController {
 	
 	private final TransactionService service;
 	
+	@Operation(summary = "Fund Transfer",description = "Transfer money between accounts")
 	@PostMapping("/transfer")
 	public ResponseEntity<TransactionResponse> transfer(@RequestBody TransferRequest request){
 		
 		return ResponseEntity.ok(service.transfer(request));
 	}
 	
+	@Operation(summary ="Transaction History" )
 	@GetMapping("/history/{accountNumber}")
 	public ResponseEntity<List<TransactionResponse>> getTransactions(@PathVariable String accountNumber){
 		
 		return ResponseEntity.ok(service.getTransactions(accountNumber));
 	}
 	
+	@Operation(summary ="Get All Transactions" )
 	@GetMapping
 	public ResponseEntity<List<TransactionResponse>> getAllTransactions(){
 		

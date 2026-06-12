@@ -1,6 +1,7 @@
 package com.bank.exception;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,17 @@ public class GlobalExceptionHandler {
 						.status(500)
 						.timestamp(LocalDateTime.now())
 						.build());
+	}
+	
+	@ExceptionHandler(AccountServiceUnavailableException.class)
+	public ResponseEntity<?> handleUnavailable(AccountServiceUnavailableException ex){
+		
+		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+								.body(Map.of(
+										"message",
+										ex.getMessage(),
+										"timestamp",
+										LocalDateTime.now()));
 	}
 
 }
