@@ -17,6 +17,8 @@ import com.bank.dto.AccountRequest;
 import com.bank.dto.AccountResponse;
 import com.bank.service.AccountService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.models.annotations.OpenAPI30;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,6 +28,8 @@ public class AccountController {
 	
 	private final AccountService accountService;
 	
+	
+	@Operation(summary = "Create Bank Account",description = "Creates a new Savings or Current account for the logged-in user")
 	@PostMapping
 	public ResponseEntity<AccountResponse> createAccount(@RequestHeader("Authorization")
 								String authHeader,@RequestBody AccountRequest request){
@@ -33,12 +37,14 @@ public class AccountController {
 		return ResponseEntity.ok(accountService.createAccount(authHeader, request));
 	}
 	
+	@Operation(summary = "Get Account Details",description = "Fetch accont details using account number" )
 	@GetMapping("/{accountNumber}")
 	public ResponseEntity<AccountResponse> getAccount(@PathVariable String accountNumber){
 		
 		return ResponseEntity.ok(accountService.getAccount(accountNumber));
 	}
 	
+	@Operation(summary ="Deposit Money",description = "Deposits money into a bank account" )
 	@PutMapping("/deposit/{accountNumber}")
 	public ResponseEntity<AccountResponse> deposit(@PathVariable String accountNumber,
 												   @RequestParam Double amount){
@@ -46,6 +52,7 @@ public class AccountController {
 		return ResponseEntity.ok(accountService.deposit(accountNumber, amount));
 	}
 	
+	@Operation(summary ="Withdraw Money",description = "Withdraws money from a bank account" )
 	@PutMapping("/withdraw/{accountNumber}")
 	public ResponseEntity<AccountResponse> withdraw(@PathVariable String accountNumber,
 													@RequestParam Double amount){
@@ -53,24 +60,28 @@ public class AccountController {
 		return ResponseEntity.ok(accountService.withdraw(accountNumber, amount));
 	}
 	
+	@Operation(summary = "Get All Accounts",description = "Returns all bank accounts")
 	@GetMapping("/all")
 	public ResponseEntity<List<AccountResponse>> getAllAccounts(){
 		
 		return ResponseEntity.ok(accountService.getAllAccounts());
 	}
 	
+	@Operation(summary = "Block Account",description = "Changes account status from ACTIVE to BLOCKED")
 	@PutMapping("/block/{accountNumber}")
 	public ResponseEntity<AccountResponse> blockAccount(@PathVariable String accountNumber){
 		
 		return ResponseEntity.ok(accountService.blockAccount(accountNumber));
 	}
 	
+	@Operation(summary = "Activate Account",description = "Changes account status from BLOCKED to ACTIVE")
 	@PutMapping("/activate/{accountNumber}")
 	public ResponseEntity<AccountResponse> activateAccount(@PathVariable String accountNumber){
 		
 		return ResponseEntity.ok(accountService.activateAccount(accountNumber));
 	}
 	
+	@Operation(summary = "Close Account",description = "Permanently closes an account by changing status to CLOSED")
 	@PutMapping("/close/{accountNumber}")
 	public ResponseEntity<AccountResponse> closeAccount(@PathVariable String accountNumber){
 		
