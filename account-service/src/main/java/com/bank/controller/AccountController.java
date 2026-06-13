@@ -18,12 +18,13 @@ import com.bank.dto.AccountResponse;
 import com.bank.service.AccountService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.models.annotations.OpenAPI30;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/accounts")
 @RequiredArgsConstructor
+@io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearerAuth")
+
 public class AccountController {
 	
 	private final AccountService accountService;
