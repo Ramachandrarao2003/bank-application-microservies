@@ -1,14 +1,12 @@
-Banking Application using Spring Boot Microservices
+# Banking Application using Spring Boot Microservices
 
-Overview
+## Overview
 
 The Banking Application is a production-style microservices-based backend system developed using Spring Boot and Spring Cloud. The application enables secure user authentication, bank account management, fund transfers, transaction tracking, email notifications, and administrative operations.
 
 The system follows modern microservices architecture principles including Service Discovery, API Gateway, Event-Driven Communication, Fault Tolerance, Monitoring, and API Documentation.
 
----
-
-Architecture
+## Architecture
 
 Client
    |
@@ -32,25 +30,24 @@ Spring Boot Admin
 Swagger/OpenAPI
 Resilience4j
 
----
-Microservices
+## Microservices
 
-1. Auth Service
+### 1. Auth Service
 
 Responsibilities:
 
-- User Registration
-- User Login
-- JWT Token Generation
-- Role Management
-- User Information APIs
+* User Registration
+* User Login
+* JWT Token Generation
+* Role Management
+* User Information APIs
 
 Features:
 
-- Spring Security
-- JWT Authentication
-- BCrypt Password Encryption
-- User Management
+* Spring Security
+* JWT Authentication
+* BCrypt Password Encryption
+* User Management
 
 Endpoints:
 
@@ -60,22 +57,20 @@ GET  /auth/users
 GET  /auth/user/{id}
 GET  /auth/email/{email}
 
----
-
-2. Account Service
+### 2. Account Service
 
 Responsibilities:
 
-- Bank Account Creation
-- Deposit Money
-- Withdraw Money
-- Account Status Management
+* Bank Account Creation
+* Deposit Money
+* Withdraw Money
+* Account Status Management
 
 Features:
 
-- Account Number Generation
-- Balance Management
-- Account Validation
+* Account Number Generation
+* Balance Management
+* Account Validation
 
 Endpoints:
 
@@ -88,21 +83,19 @@ PUT  /accounts/block/{accountNumber}
 PUT  /accounts/activate/{accountNumber}
 PUT  /accounts/close/{accountNumber}
 
----
-
-3. Transaction Service
+### 3. Transaction Service
 
 Responsibilities:
 
-- Fund Transfer
-- Transaction History
-- Transfer Validation
+* Fund Transfer
+* Transaction History
+* Transfer Validation
 
 Features:
 
-- Feign Client Communication
-- Transaction Tracking
-- Kafka Event Publishing
+* Feign Client Communication
+* Transaction Tracking
+* Kafka Event Publishing
 
 Endpoints:
 
@@ -111,20 +104,18 @@ GET  /transactions/{accountNumber}
 GET  /transactions/all
 GET  /transactions/{transactionId}
 
----
-
-4. Notification Service
+### 4. Notification Service
 
 Responsibilities:
 
-- Email Notifications
-- Kafka Event Consumption
+* Email Notifications
+* Kafka Event Consumption
 
 Features:
 
-- Apache Kafka Consumer
-- Spring Mail
-- Transfer Success Notifications
+* Apache Kafka Consumer
+* Spring Mail
+* Transfer Success Notifications
 
 Example Email:
 
@@ -133,22 +124,20 @@ Fund Transfer Success
 Amount ₹1000 transferred successfully
 from 123456789012 to 987654321098
 
----
-
-5. Admin Service
+### 5. Admin Service
 
 Responsibilities:
 
-- User Monitoring
-- Account Monitoring
-- Transaction Monitoring
-- Dashboard Analytics
+* User Monitoring
+* Account Monitoring
+* Transaction Monitoring
+* Dashboard Analytics
 
 Features:
 
-- Admin-Only Access
-- System Statistics
-- Account Control Operations
+* Admin-Only Access
+* System Statistics
+* Account Control Operations
 
 Endpoints:
 
@@ -165,121 +154,113 @@ PUT /admin/block/{accountNumber}
 PUT /admin/activate/{accountNumber}
 PUT /admin/close/{accountNumber}
 
----
+## Technology Stack
 
-Technology Stack
+### Backend
 
-Backend
+* Java 17
+* Spring Boot 3
+* Spring Cloud
 
-- Java 17
-- Spring Boot 3
-- Spring Cloud
+### Security
 
-Security
+* Spring Security
+* JWT Authentication
+* BCrypt Password Encoder
 
-- Spring Security
-- JWT Authentication
-- BCrypt Password Encoder
+### Communication
 
-Communication
+* OpenFeign
+* Apache Kafka
 
-- OpenFeign
-- Apache Kafka
+### Service Discovery
 
-Service Discovery
+* Eureka Server
 
-- Eureka Server
+### Gateway
 
-Gateway
+* Spring Cloud Gateway
 
-- Spring Cloud Gateway
+### Fault Tolerance
 
-Fault Tolerance
+* Resilience4j Circuit Breaker
 
-- Resilience4j Circuit Breaker
+### Monitoring
 
-Monitoring
+* Spring Boot Actuator
+* Spring Boot Admin
 
-- Spring Boot Actuator
-- Spring Boot Admin
+### API Documentation
 
-API Documentation
+* Swagger/OpenAPI
 
-- Swagger/OpenAPI
+### Database
 
-Database
+* Oracle Database
 
-- Oracle Database
+### Build Tool
 
-Build Tool
+* Maven
 
-- Maven
+### Version Control
 
-Version Control
+* Git
+* GitHub
 
-- Git
-- GitHub
+## Project Features
 
----
+### Authentication
 
-Project Features
+* Secure Login
+* JWT Token Generation
+* Role Based Access Control
 
-Authentication
+### Account Management
 
-- Secure Login
-- JWT Token Generation
-- Role Based Access Control
+* Create Account
+* Deposit Funds
+* Withdraw Funds
+* Block Account
+* Activate Account
+* Close Account
 
-Account Management
+### Fund Transfer
 
-- Create Account
-- Deposit Funds
-- Withdraw Funds
-- Block Account
-- Activate Account
-- Close Account
+* Inter Account Transfer
+* Balance Validation
+* Transaction Recording
 
-Fund Transfer
+### Notifications
 
-- Inter Account Transfer
-- Balance Validation
-- Transaction Recording
+* Real-time Email Alerts
+* Kafka Event Driven Messaging
 
-Notifications
+### Monitoring
 
-- Real-time Email Alerts
-- Kafka Event Driven Messaging
+* Service Health Monitoring
+* Application Metrics
+* Dashboard Monitoring
 
-Monitoring
+### Fault Tolerance
 
-- Service Health Monitoring
-- Application Metrics
-- Dashboard Monitoring
+* Circuit Breaker Support
+* Service Failure Recovery
 
-Fault Tolerance
-
-- Circuit Breaker Support
-- Service Failure Recovery
-
----
-
-Security
+## Security
 
 Implemented using:
 
-- JWT Authentication
-- Role-Based Access Control (RBAC)
-- Spring Security
-- Password Encryption
+* JWT Authentication
+* Role-Based Access Control (RBAC)
+* Spring Security
+* Password Encryption
 
 Roles:
 
 ADMIN
 CUSTOMER
 
----
-
-Kafka Flow
+## Kafka Flow
 
 Transaction Service
        |
@@ -295,9 +276,7 @@ Notification Service
        v
 Email Sent
 
----
-
-Service Communication
+## Service Communication
 
 Transaction Service
        |
@@ -309,9 +288,7 @@ Auth Service
 
 Implemented using OpenFeign Clients.
 
----
-
-Swagger Documentation
+## Swagger Documentation
 
 Access Swagger UI:
 
@@ -319,14 +296,12 @@ http://localhost:9090/swagger-ui.html
 
 Available APIs:
 
-- Auth Service
-- Account Service
-- Transaction Service
-- Admin Service
+* Auth Service
+* Account Service
+* Transaction Service
+* Admin Service
 
----
-
-Spring Boot Admin Dashboard
+## Spring Boot Admin Dashboard
 
 Access:
 
@@ -334,15 +309,13 @@ http://localhost:9099
 
 Features:
 
-- Service Monitoring
-- Health Checks
-- Metrics
-- Environment Variables
-- Logs
+* Service Monitoring
+* Health Checks
+* Metrics
+* Environment Variables
+* Logs
 
----
-
-Eureka Dashboard
+## Eureka Dashboard
 
 Access:
 
@@ -350,35 +323,29 @@ http://localhost:8761
 
 Features:
 
-- Service Registration
-- Service Discovery
-- Instance Monitoring
+* Service Registration
+* Service Discovery
+* Instance Monitoring
 
----
+## Future Enhancements
 
-Future Enhancements
+* Docker Containerization
+* Kubernetes Deployment
+* Redis Caching
+* Distributed Tracing
+* ELK Stack Logging
+* CI/CD Pipeline using Jenkins
+* Prometheus & Grafana Monitoring
 
-- Docker Containerization
-- Kubernetes Deployment
-- Redis Caching
-- Distributed Tracing
-- ELK Stack Logging
-- CI/CD Pipeline using Jenkins
-- Prometheus & Grafana Monitoring
+## Resume Highlights
 
----
+* Developed a Banking Application using Spring Boot Microservices Architecture.
+* Implemented 30+ REST APIs for Authentication, Account Management, Fund Transfers, and Administration.
+* Integrated Apache Kafka for asynchronous event-driven notifications.
+* Implemented JWT Authentication and Role-Based Access Control (RBAC).
+* Used Eureka Service Discovery, API Gateway, Resilience4j Circuit Breaker, Swagger/OpenAPI, and Spring Boot Admin.
 
-Resume Highlights
-
-- Developed a Banking Application using Spring Boot Microservices Architecture.
-- Implemented 30+ REST APIs for Authentication, Account Management, Fund Transfers, and Administration.
-- Integrated Apache Kafka for asynchronous event-driven notifications.
-- Implemented JWT Authentication and Role-Based Access Control (RBAC).
-- Used Eureka Service Discovery, API Gateway, Resilience4j Circuit Breaker, Swagger/OpenAPI, and Spring Boot Admin.
-
----
-
-Author
+## Author
 
 P. Ramachandra Rao
 
