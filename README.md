@@ -24,11 +24,11 @@ Oracle Database
 
 Supporting Components:
 ----------------------
-Eureka Server
-Kafka
-Spring Boot Admin
-Swagger/OpenAPI
-Resilience4j
+Eureka Server ,
+Kafka ,
+Spring Boot Admin ,
+Swagger/OpenAPI ,
+Resilience4j 
 
 ## Microservices
 
@@ -51,11 +51,11 @@ Features:
 
 Endpoints:
 
-POST /auth/register
-POST /auth/login
-GET  /auth/users
-GET  /auth/user/{id}
-GET  /auth/email/{email}
+POST /auth/register ,
+POST /auth/login ,
+GET  /auth/users ,
+GET  /auth/user/{id} ,
+GET  /auth/email/{email} 
 
 ### 2. Account Service
 
@@ -74,14 +74,14 @@ Features:
 
 Endpoints:
 
-POST /accounts
-GET  /accounts/{accountNumber}
-PUT  /accounts/deposit/{accountNumber}
-PUT  /accounts/withdraw/{accountNumber}
-GET  /accounts/all
-PUT  /accounts/block/{accountNumber}
-PUT  /accounts/activate/{accountNumber}
-PUT  /accounts/close/{accountNumber}
+POST /accounts ,
+GET  /accounts/{accountNumber} ,
+PUT  /accounts/deposit/{accountNumber} ,
+PUT  /accounts/withdraw/{accountNumber} ,
+GET  /accounts/all ,
+PUT  /accounts/block/{accountNumber} ,
+PUT  /accounts/activate/{accountNumber} ,
+PUT  /accounts/close/{accountNumber} 
 
 ### 3. Transaction Service
 
@@ -99,10 +99,10 @@ Features:
 
 Endpoints:
 
-POST /transactions/transfer
-GET  /transactions/{accountNumber}
-GET  /transactions/all
-GET  /transactions/{transactionId}
+POST /transactions/transfer ,
+GET  /transactions/{accountNumber} ,
+GET  /transactions/all ,
+GET  /transactions/{transactionId} 
 
 ### 4. Notification Service
 
@@ -119,7 +119,7 @@ Features:
 
 Example Email:
 
-Fund Transfer Success
+Fund Transfer Success ,
 
 Amount ₹1000 transferred successfully
 from 123456789012 to 987654321098
@@ -141,18 +141,18 @@ Features:
 
 Endpoints:
 
-GET /admin/users
-GET /admin/accounts/all
-GET /admin/transactions
-GET /admin/dashboard
+GET /admin/users ,
+GET /admin/accounts/all ,
+GET /admin/transactions ,
+GET /admin/dashboard ,
 
-GET /admin/user/{userId}
-GET /admin/account/{accountNumber}
-GET /admin/transaction/{transactionId}
+GET /admin/user/{userId} ,
+GET /admin/account/{accountNumber} ,
+GET /admin/transaction/{transactionId} ,
 
-PUT /admin/block/{accountNumber}
-PUT /admin/activate/{accountNumber}
-PUT /admin/close/{accountNumber}
+PUT /admin/block/{accountNumber} ,
+PUT /admin/activate/{accountNumber} ,
+PUT /admin/close/{accountNumber} 
 
 ## Technology Stack
 
@@ -257,7 +257,7 @@ Implemented using:
 
 Roles:
 
-ADMIN
+ADMIN ,
 CUSTOMER
 
 ## Kafka Flow
